@@ -1,0 +1,23 @@
+%YAML 1.2
+---
+name: Monolog
+file_extensions: [log]
+scope: text.plain.log
+
+contexts:
+  main:
+    - include: line
+
+  line:
+    - match: "(Stack trace\\:)"
+      scope: comment.trace.begin
+
+    - match: "(\\#[0-9]+) (.*)"
+      scope: comment.trace.line
+
+    - match: "(\\[([0-9:\\- ]+)\\] ([A-Za-z]+)\\.(DEBUG|INFO|NOTICE|WARNING|ERROR|CRITICAL|ALERT|EMERGENCY)\\: )"
+      captures:
+        1: meta.line
+        2: keyword.datetime
+        3: constant.enviroment
+        4: variable.level
